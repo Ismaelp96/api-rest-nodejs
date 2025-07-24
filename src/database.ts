@@ -11,4 +11,4 @@ export const config: Knex.Config = {
 	useNullAsDefault: true,
 };
 
-export const knexConfig = knex(config);
+export const knexDB = knex(config);
