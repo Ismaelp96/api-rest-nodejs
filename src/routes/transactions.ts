@@ -11,7 +11,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
 		return { transactions };
 	});
 
-	app.get('/:id', async (request, reply) => {
+	app.get('/:id', async (request) => {
 		const getTransactionParamsSchema = z.object({
 			id: z.uuid(),
 		});
@@ -20,6 +20,14 @@ export async function transactionsRoutes(app: FastifyInstance) {
 		const transaction = await knexDB('transactions').where('id', id).first();
 
 		return { transaction };
+	});
+
+	app.get('/summary', async () => {
+		const summary = await knexDB('transactions')
+			.sum('amount', { as: 'amount' })
+			.first();
+
+		return { summary };
 	});
 	app.post('/', async (request, reply) => {
 		const createTransactionBodySchema = z.object({
